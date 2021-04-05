@@ -3,6 +3,10 @@ pipeline {
   tools {
      maven 'M2_HOME'
   }
+  environment {
+    registry = "joelleyarro/devops-pipeline"
+    regeistryCredential = 'dockerhub'
+  }
   stages {
     stage('Build'){
       steps {
@@ -19,9 +23,9 @@ pipeline {
     }
     stage('Deploy'){
       steps {
-        echo "deploy step"
-        sleep 10
-      }
-    }
+        script {
+          docker.build registry + ":$BUILD_NUMBER"
+       }
+     }
   }
 }
